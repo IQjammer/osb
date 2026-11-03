@@ -24,10 +24,6 @@ impl Default for BenchmarkState {
 }
 
 impl BenchmarkState {
-    pub fn new() -> Self {
-        Self::default()
-    }
-
     pub fn start(&mut self) {
         self.is_active = true;
         self.current_clicks = 0;
