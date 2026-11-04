@@ -6,7 +6,7 @@ A TUI Osu!Speed benchmark
 ```sh
 git clone https://github.com/IQjammer/osb/
 cd osb
-cargo build --target release
+cargo build --release
 ./src/target/release/osb
 ```
 
