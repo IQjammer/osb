@@ -37,6 +37,11 @@ pub fn render_bench(state: &BenchmarkState, config: &Config, area: Rect, buf: &m
     let progress_block = Block::default()
         .borders(Borders::ALL)
         .title(" Progress ")
+        .title_top(
+            Line::from("[r] to reset")
+                .style(Style::default().dim())
+                .alignment(Alignment::Center),
+        )
         .title_bottom(
             Line::from(" [h/l] to adjust clicks ")
                 .style(Style::default().dim())
