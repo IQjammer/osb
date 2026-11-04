@@ -3,13 +3,13 @@ use std::{io, time::Duration};
 use crossterm::event::{self, Event, KeyCode, KeyEvent, KeyEventKind};
 use ratatui::{DefaultTerminal, Frame};
 
-use crate::{action::Action, bench::BenchmarkState, ui, keybinds::Keys};
+use crate::{action::Action, bench::BenchmarkState, ui, config::Keys};
 
 #[derive(Default)]
 pub struct App {
     pub exit: bool,
     pub bench: BenchmarkState,
-    pub keybinds: Keys,
+    pub config: Keys,
 }
 
 impl App {
@@ -32,8 +32,8 @@ impl App {
     fn handle_events(&mut self) -> io::Result<()> {
         if event::poll(Duration::from_millis(16))? {
             if let Event::Key(key) = event::read()? && key.kind == KeyEventKind::Press {
-                if self.keybinds.is_rebinding() {
-                    self.keybinds.handle_key(key.code);
+                if self.config.is_rebinding() {
+                    self.config.handle_key(key.code);
                 } else {
                     let action = self.map_key_to_action(key);
                     self.update(action);
@@ -50,9 +50,11 @@ impl App {
             KeyCode::Char('q') | KeyCode::Esc => Action::Quit,
             KeyCode::Enter => Action::StartBenchmark,
             KeyCode::Char('r') => Action::Reset,
+            KeyCode::Char('h') => Action::DecreaseTarget,
+            KeyCode::Char('l') => Action::IncreaseTarget,
             KeyCode::Char('k') => Action::BindsSelection,
             KeyCode::Char(c)
-                if c == self.keybinds.key_primary || c == self.keybinds.key_secondary =>
+                if c == self.config.key_primary || c == self.keybinds.key_secondary =>
             {
                 Action::RegisterClick(c)
             }
@@ -63,8 +65,10 @@ impl App {
     fn update(&mut self, action: Action) {
         match action {
             Action::Quit => self.exit = true,
-            Action::BindsSelection => self.keybinds.selection(),
+            Action::BindsSelection => self.config.selection(),
             Action::StartBenchmark => self.bench.start(),
+            Action::IncreaseTarget => self.config.increase_target(),
+            Action::DecreaseTarget => self.config.decrease_target(),
             Action::RegisterClick(k) => self.bench.register_click(k),
             Action::Reset => self.bench.reset(),
             Action::Tick | Action::None => {}

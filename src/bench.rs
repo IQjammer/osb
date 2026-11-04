@@ -3,7 +3,6 @@ use std::time::Instant;
 #[derive(Debug, Clone)]
 pub struct BenchmarkState {
     pub is_active: bool,
-    pub target_clicks: u32,
     pub current_clicks: u32,
     pub timestamps: Vec<Instant>,
     pub result: u16,
@@ -14,7 +13,6 @@ impl Default for BenchmarkState {
     fn default() -> Self {
         Self {
             is_active: false,
-            target_clicks: 20,
             current_clicks: 0,
             timestamps: Vec::new(),
             result: 0,

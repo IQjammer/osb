@@ -8,23 +8,25 @@ pub enum BindState {
     WaitingSecond,
 }
 
-pub struct Keys {
+pub struct Config {
     pub key_primary: char,
     pub key_secondary: char,
+    pub target_clicks: u32,
     pub state: BindState,
 }
 
-impl Default for Keys {
+impl Default for Config {
     fn default() -> Self {
         Self {
             key_primary: 'z',
             key_secondary: 'x',
+            target_clicks: 20,
             state: BindState::Idle,
         }
     }
 }
 
-impl Keys {
+impl Config {
     pub fn selection(&mut self) {
         self.state = BindState::WaitingFirst;
     }
@@ -47,5 +49,13 @@ impl Keys {
                 BindState::Idle => {}
             }
         }
+    }
+
+    pub fn increase_target(&mut self) {
+        self.target_clicks = (self.target_clicks + 10).min(500);
+    }
+
+    pub fn decrease_target(&mut self) {
+        self.target_clicks = (self.target_clicks - 10).min(500);
     }
 }

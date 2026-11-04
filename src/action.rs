@@ -2,6 +2,8 @@
 pub enum Action {
     Quit,
     BindsSelection,
+    IncreaseTarget,
+    DecreaseTarget,
     StartBenchmark,
     RegisterClick(char),
     Reset,
