@@ -67,8 +67,8 @@ pub fn render_bench(state: &BenchmarkState, config: &Config, area: Rect, buf: &m
         Layout::horizontal([Constraint::Percentage(50), Constraint::Percentage(50)])
             .areas(bottom_keys);
 
-    let k1_active = state.last_key == Some(config.key_primary);
-    let k2_active = state.last_key == Some(config.key_secondary);
+    let k1_active = state.is_active && state.last_key == Some(config.key_primary);
+    let k2_active = state.is_active && state.last_key == Some(config.key_secondary);
 
     let k1_title = format!(" Key 1 ({}) ", config.key_primary.to_ascii_uppercase());
     let k2_title = format!(" Key 2 ({}) ", config.key_secondary.to_ascii_uppercase());
@@ -96,7 +96,7 @@ pub fn render_bench(state: &BenchmarkState, config: &Config, area: Rect, buf: &m
         .block(k1_block)
         .render(k1_area, buf);
 
-    Paragraph::new(if k2_active { "PRESSED" } else { "" })
+    Paragraph::new(if k2_active { "Pressed" } else { "" })
         .centered()
         .block(k2_block)
         .render(k2_area, buf);
