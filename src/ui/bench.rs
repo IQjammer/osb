@@ -1,7 +1,8 @@
 use ratatui::{
     buffer::Buffer,
-    layout::{Constraint, Layout, Rect},
+    layout::{Alignment, Constraint, Layout, Rect},
     style::{Color, Style},
+    text::Line,
     widgets::{Block, Borders, Gauge, Paragraph, Widget},
 };
 
@@ -27,11 +28,23 @@ pub fn render_bench(state: &BenchmarkState, config: &Config, area: Rect, buf: &m
     } else if state.current_clicks >= state.target_clicks && state.target_clicks > 0 {
         format!("Done! BPM: {}", state.result)
     } else {
-        "Hit Enter to begin!".to_string()
+        format!(
+            "Target: {} clicks | Hit Enter to begin!",
+            config.target_clicks
+        )
     };
 
+    let progress_block = Block::default()
+        .borders(Borders::ALL)
+        .title(" Progress ")
+        .title_bottom(
+            Line::from(" [h/l] to adjust clicks ")
+                .style(Style::default().dim())
+                .alignment(Alignment::Center),
+        );
+
     let gauge = Gauge::default()
-        .block(Block::default().borders(Borders::ALL).title(" Progress "))
+        .block(progress_block)
         .gauge_style(
             Style::default()
                 .fg(if ratio >= 1.0 {
@@ -58,7 +71,7 @@ pub fn render_bench(state: &BenchmarkState, config: &Config, area: Rect, buf: &m
     let k1_block = Block::default()
         .borders(Borders::ALL)
         .title(k1_title)
-        .border_style(if k2_active {
+        .border_style(if k1_active {
             ratatui::style::Style::default().bold()
         } else {
             ratatui::style::Style::default()

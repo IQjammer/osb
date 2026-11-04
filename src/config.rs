@@ -52,10 +52,10 @@ impl Config {
     }
 
     pub fn increase_target(&mut self) {
-        self.target_clicks = (self.target_clicks + 10).min(500);
+        self.target_clicks = (self.target_clicks + 5).min(500);
     }
 
     pub fn decrease_target(&mut self) {
-        self.target_clicks = (self.target_clicks - 10).min(500);
+        self.target_clicks = (self.target_clicks - 5).min(500);
     }
 }
