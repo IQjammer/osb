@@ -11,7 +11,7 @@ cargo build --target release
 ```
 
 
-## TODO
+### TODO
 - [x] Changeble binds
     - [x] Frontend for binds changing
 - [x] Changeble number of clicks  
