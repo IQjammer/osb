@@ -1,5 +1,5 @@
 [package]
-name = "osu_speed_benchmark"
+name = "osb"
 version = "0.1.0"
 edition = "2024"
 
