@@ -5,9 +5,9 @@ use ratatui::{
     widgets::{Block, Borders, Gauge, Paragraph, Widget},
 };
 
-use crate::{bench::BenchmarkState, keybinds::Keys};
+use crate::{bench::BenchmarkState, config::Config};
 
-pub fn render_bench(state: &BenchmarkState, keybinds: &Keys, area: Rect, buf: &mut Buffer) {
+pub fn render_bench(state: &BenchmarkState, config: &Config, area: Rect, buf: &mut Buffer) {
     let [top_center, bottom_keys] =
         Layout::vertical([Constraint::Length(5), Constraint::Min(3)]).areas(area);
 
@@ -49,11 +49,11 @@ pub fn render_bench(state: &BenchmarkState, keybinds: &Keys, area: Rect, buf: &m
         Layout::horizontal([Constraint::Percentage(50), Constraint::Percentage(50)])
             .areas(bottom_keys);
 
-    let k1_active = state.last_key == Some(keybinds.key_primary);
-    let k2_active = state.last_key == Some(keybinds.key_secondary);
+    let k1_active = state.last_key == Some(config.key_primary);
+    let k2_active = state.last_key == Some(config.key_secondary);
 
-    let k1_title = format!(" Key 1 ({}) ", keybinds.key_primary.to_ascii_uppercase());
-    let k2_title = format!(" Key 2 ({}) ", keybinds.key_secondary.to_ascii_uppercase());
+    let k1_title = format!(" Key 1 ({}) ", config.key_primary.to_ascii_uppercase());
+    let k2_title = format!(" Key 2 ({}) ", config.key_secondary.to_ascii_uppercase());
 
     let k1_block = Block::default()
         .borders(Borders::ALL)

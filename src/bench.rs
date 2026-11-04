@@ -4,6 +4,7 @@ use std::time::Instant;
 pub struct BenchmarkState {
     pub is_active: bool,
     pub current_clicks: u32,
+    pub target_clicks: u32,
     pub timestamps: Vec<Instant>,
     pub result: u16,
     pub last_key: Option<char>,
@@ -14,6 +15,7 @@ impl Default for BenchmarkState {
         Self {
             is_active: false,
             current_clicks: 0,
+            target_clicks: 20,
             timestamps: Vec::new(),
             result: 0,
             last_key: None,
@@ -22,9 +24,10 @@ impl Default for BenchmarkState {
 }
 
 impl BenchmarkState {
-    pub fn start(&mut self) {
+    pub fn start(&mut self, target: u32) {
         self.is_active = true;
         self.current_clicks = 0;
+        self.target_clicks = target;
         self.timestamps.clear();
         self.last_key = None;
     }
@@ -50,18 +53,15 @@ impl BenchmarkState {
             return;
         };
 
-        let mut deltas: Vec<_> = self.timestamps
-            .windows(2)
-            .map(|w| w[1] - w[0])
-            .collect();
+        let mut deltas: Vec<_> = self.timestamps.windows(2).map(|w| w[1] - w[0]).collect();
 
         deltas.sort_unstable();
 
         let len = deltas.len();
         let mid = len / 2;
 
-        let median_dt_sec =  if len % 2 == 0 {
-            (deltas[mid -1].as_secs_f32() + deltas[mid].as_secs_f32()) / 2.0
+        let median_dt_sec = if len % 2 == 0 {
+            (deltas[mid - 1].as_secs_f32() + deltas[mid].as_secs_f32()) / 2.0
         } else {
             deltas[mid].as_secs_f32()
         };
@@ -69,9 +69,8 @@ impl BenchmarkState {
         self.result = if median_dt_sec > 0.0 {
             (15.0 / median_dt_sec).round() as u16
         } else {
-                0
-            };
-
+            0
+        };
     }
 
     pub fn reset(&mut self) {

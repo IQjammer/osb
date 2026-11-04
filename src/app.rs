@@ -3,13 +3,13 @@ use std::{io, time::Duration};
 use crossterm::event::{self, Event, KeyCode, KeyEvent, KeyEventKind};
 use ratatui::{DefaultTerminal, Frame};
 
-use crate::{action::Action, bench::BenchmarkState, ui, config::Keys};
+use crate::{action::Action, bench::BenchmarkState, config::Config, ui};
 
 #[derive(Default)]
 pub struct App {
     pub exit: bool,
     pub bench: BenchmarkState,
-    pub config: Keys,
+    pub config: Config,
 }
 
 impl App {
@@ -31,7 +31,9 @@ impl App {
 
     fn handle_events(&mut self) -> io::Result<()> {
         if event::poll(Duration::from_millis(16))? {
-            if let Event::Key(key) = event::read()? && key.kind == KeyEventKind::Press {
+            if let Event::Key(key) = event::read()?
+                && key.kind == KeyEventKind::Press
+            {
                 if self.config.is_rebinding() {
                     self.config.handle_key(key.code);
                 } else {
@@ -53,9 +55,7 @@ impl App {
             KeyCode::Char('h') => Action::DecreaseTarget,
             KeyCode::Char('l') => Action::IncreaseTarget,
             KeyCode::Char('k') => Action::BindsSelection,
-            KeyCode::Char(c)
-                if c == self.config.key_primary || c == self.keybinds.key_secondary =>
-            {
+            KeyCode::Char(c) if c == self.config.key_primary || c == self.config.key_secondary => {
                 Action::RegisterClick(c)
             }
             _ => Action::None,
@@ -66,7 +66,7 @@ impl App {
         match action {
             Action::Quit => self.exit = true,
             Action::BindsSelection => self.config.selection(),
-            Action::StartBenchmark => self.bench.start(),
+            Action::StartBenchmark => self.bench.start(self.config.target_clicks),
             Action::IncreaseTarget => self.config.increase_target(),
             Action::DecreaseTarget => self.config.decrease_target(),
             Action::RegisterClick(k) => self.bench.register_click(k),

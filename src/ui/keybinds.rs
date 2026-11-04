@@ -5,7 +5,7 @@ use ratatui::{
     widgets::{Block, Borders, Clear, Paragraph, Widget},
 };
 
-use crate::keybinds::{BindState, Keys};
+use crate::config::{BindState, Config};
 
 fn centered_rect(percent_x: u16, percent_y: u16, area: Rect) -> Rect {
     let [area] = Layout::vertical([Constraint::Percentage(percent_y)])
@@ -17,7 +17,7 @@ fn centered_rect(percent_x: u16, percent_y: u16, area: Rect) -> Rect {
     area
 }
 
-pub fn render_rebind_popup(keybinds: &Keys, area: Rect, buf: &mut Buffer) {
+pub fn render_rebind_popup(keybinds: &Config, area: Rect, buf: &mut Buffer) {
     let popup_area = centered_rect(45, 25, area);
 
     Clear.render(popup_area, buf);

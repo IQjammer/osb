@@ -1,7 +1,7 @@
 mod action;
-mod keybinds;
 mod app;
 mod bench;
+mod config;
 mod ui;
 
 use app::App;
