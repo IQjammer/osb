@@ -56,6 +56,6 @@ impl Config {
     }
 
     pub fn decrease_target(&mut self) {
-        self.target_clicks = self.target_clicks.saturating_sub(5).min(5);
+        self.target_clicks = self.target_clicks.saturating_sub(5).max(5);
     }
 }
