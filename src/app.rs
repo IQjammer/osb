@@ -67,8 +67,18 @@ impl App {
             Action::Quit => self.exit = true,
             Action::BindsSelection => self.config.selection(),
             Action::StartBenchmark => self.bench.start(self.config.target_clicks),
-            Action::IncreaseTarget => self.config.increase_target(),
-            Action::DecreaseTarget => self.config.decrease_target(),
+            Action::IncreaseTarget => {
+                if self.bench.result != 0 {
+                    self.bench.reset()
+                }
+                self.config.increase_target()
+            }
+            Action::DecreaseTarget => {
+                if self.bench.result != 0 {
+                    self.bench.reset()
+                }
+                self.config.decrease_target()
+            }
             Action::RegisterClick(k) => self.bench.register_click(k),
             Action::Reset => self.bench.reset(),
             Action::Tick | Action::None => {}
