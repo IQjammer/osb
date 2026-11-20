@@ -1,18 +1,21 @@
 # OSB  
 
-A TUI Osu!Speed benchmark  
+A TUI osu! speed benchmark.
+
+<p align="center">
+  <img src="assets/demo.gif" alt="OSB Demo" width="750">
+</p>
 
 ### Usage
 ```sh
-git clone https://github.com/IQjammer/osb/
+git clone [https://github.com/IQjammer/osb/](https://github.com/IQjammer/osb/)
 cd osb
 cargo build --release
 ./target/release/osb
 ```
 
-
-### TODO
+### Features / TODO
 - [ ] UR calculation
-- [x] Changeble binds
-    - [x] Frontend for binds changing
-- [x] Changeble number of clicks  
+- [x] Changeable binds
+  - [x] Frontend for changing binds
+- [x] Configurable click count
