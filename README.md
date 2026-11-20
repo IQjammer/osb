@@ -15,7 +15,7 @@ cargo build --release
 ```
 
 ### Features / TODO
-- [ ] UR calculation
+- [x] UR calculation
 - [x] Changeable binds
   - [x] Frontend for changing binds
 - [x] Configurable click count
