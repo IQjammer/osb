@@ -2,7 +2,7 @@ use ratatui::{
     buffer::Buffer,
     layout::{Alignment, Constraint, Layout, Rect},
     style::{Color, Style},
-    text::Line,
+    text::{Line, Span},
     widgets::{Block, Borders, Gauge, Paragraph, Widget},
 };
 
@@ -19,18 +19,27 @@ pub fn render_bench(state: &BenchmarkState, config: &Config, area: Rect, buf: &m
     };
 
     let status_line = if state.is_active {
-        format!(
-            "{}/{} clicks ({}%)",
-            state.current_clicks,
-            state.target_clicks,
-            (ratio * 100.0) as u16
+        Span::styled(
+            format!(
+                "{}/{} clicks ({}%)",
+                state.current_clicks,
+                state.target_clicks,
+                (ratio * 100.0) as u16
+            ),
+            Style::default().fg(Color::White).bold(),
         )
     } else if state.current_clicks >= state.target_clicks && state.target_clicks > 0 {
-        format!("Done! BPM: {}", state.result)
+        Span::styled(
+            format!("Done! BPM: {}", state.result),
+            Style::default().fg(Color::White).bold(),
+        )
     } else {
-        format!(
-            "Target: {} clicks | Hit Enter to begin!",
-            config.target_clicks
+        Span::styled(
+            format!(
+                "Target: {} clicks | Hit Enter to begin!",
+                config.target_clicks
+            ),
+            Style::default().fg(Color::White).bold(),
         )
     };
 
@@ -50,15 +59,7 @@ pub fn render_bench(state: &BenchmarkState, config: &Config, area: Rect, buf: &m
 
     let gauge = Gauge::default()
         .block(progress_block)
-        .gauge_style(
-            Style::default()
-                .fg(if ratio >= 1.0 {
-                    Color::Green
-                } else {
-                    Color::Cyan
-                })
-                .bg(Color::DarkGray),
-        )
+        .gauge_style(Style::default().fg(Color::Magenta).bg(Color::DarkGray))
         .ratio(ratio)
         .label(status_line);
     gauge.render(top_center, buf);
