@@ -68,13 +68,13 @@ impl App {
             Action::BindsSelection => self.config.selection(),
             Action::StartBenchmark => self.bench.start(self.config.target_clicks),
             Action::IncreaseTarget => {
-                if self.bench.result != 0 {
+                if self.bench.bpm != 0 {
                     self.bench.reset()
                 }
                 self.config.increase_target()
             }
             Action::DecreaseTarget => {
-                if self.bench.result != 0 {
+                if self.bench.bpm != 0 {
                     self.bench.reset()
                 }
                 self.config.decrease_target()

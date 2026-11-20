@@ -30,7 +30,7 @@ pub fn render_bench(state: &BenchmarkState, config: &Config, area: Rect, buf: &m
         )
     } else if state.current_clicks >= state.target_clicks && state.target_clicks > 0 {
         Span::styled(
-            format!("Done! BPM: {}", state.result),
+            format!("Done! BPM: {} | UR: {}", state.bpm, state.ur),
             Style::default().fg(Color::White).bold(),
         )
     } else {
