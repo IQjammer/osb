@@ -1,6 +1,6 @@
 # OSB  
 
-A TUI osu! speed benchmark.
+A TUI osu!speed benchmark
 
 <p align="center">
   <img src="assets/demo.gif" alt="OSB Demo" width="750">
